@@ -1,11 +1,15 @@
 pipeline {
   agent any
 
+  tools {
+    nodejs 'Node 18'
+  }
+
   environment {
     EC2_USER = 'ubuntu'
     EC2_IP = '18.119.165.30'
     EC2_PATH = '/var/www/html'
-    SSH_KEY = '~/.ssh/ng-testing-keys.pem'
+    SSH_KEY = '/var/lib/jenkins/.ssh/ng-testing-keys.pem'
   }
 
   stages {
@@ -23,15 +27,13 @@ pipeline {
 
     stage('Compilar Angular') {
       steps {
-        sh 'ng build --configuration=production'
+        sh 'npx ng build --configuration=production'
       }
     }
 
     stage('Deploy en EC2') {
       steps {
-        sh '''
-          scp -i $SSH_KEY -r dist/* $EC2_USER@$EC2_IP:$EC2_PATH
-        '''
+        sh 'scp -i $SSH_KEY -r dist/* $EC2_USER@$EC2_IP:$EC2_PATH'
       }
     }
   }
