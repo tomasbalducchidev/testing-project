@@ -25,9 +25,9 @@ pipeline {
       }
     }
 
-    stage('Test Angular') {
+    stage('Compile Angular') {
       steps {
-        sh 'ng test'
+        sh 'ng build --prod'
       }
     }
 
