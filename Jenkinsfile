@@ -7,7 +7,7 @@ pipeline {
 
   environment {
     EC2_USER = 'ubuntu'
-    EC2_IP = '18.119.165.30'
+    EC2_IP = '18.217.50.47'
     EC2_PATH = '/var/www/html'
     SSH_KEY = '/var/lib/jenkins/.ssh/ng-testing-keys.pem'
   }
