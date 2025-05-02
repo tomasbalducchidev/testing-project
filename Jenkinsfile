@@ -27,7 +27,7 @@ pipeline {
 
     stage('Compile Angular') {
       steps {
-        sh 'ng build --prod'
+        sh 'export NODE_OPTIONS=--max-old-space-size=4096 && ng build --configuration=production'
       }
     }
 
