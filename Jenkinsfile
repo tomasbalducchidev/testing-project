@@ -7,7 +7,7 @@ pipeline {
 
   environment {
     EC2_USER = 'ubuntu'
-    EC2_IP = '3.145.98.74'
+    EC2_IP = '3.145.154.18'
     EC2_PATH = '/var/www/html'
     SSH_KEY = '/var/lib/jenkins/.ssh/ng-testing-keys.pem'
   }
@@ -27,7 +27,7 @@ pipeline {
 
     stage('Compile Angular') {
       steps {
-        sh 'export NODE_OPTIONS=--max-old-space-size=4096 && ng build --configuration=production'
+        sh 'ng build --configuration=production --verbose'
       }
     }
 
