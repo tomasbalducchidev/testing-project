@@ -7,7 +7,7 @@ pipeline {
 
   environment {
     EC2_USER = 'ubuntu'
-    EC2_IP = '3.145.154.18'
+    EC2_IP = '3.135.207.8'
     EC2_PATH = '/var/www/html'
     SSH_KEY = '/var/lib/jenkins/.ssh/ng-testing-keys.pem'
   }
@@ -21,11 +21,16 @@ pipeline {
 
     stage('Instalar dependencias') {
       steps {
-        sh 'npm install'
+        sh '''
+          echo "Instalando dependencias"
+          npm install -g @angular/cli@18
+          npm ci install
+          node --max_old_space_size=2500
+        '''
       }
     }
 
-    stage('Compile Angular') {
+    stage('Compilar Angular') {
       steps {
         sh 'ng build --configuration=production --verbose'
       }
