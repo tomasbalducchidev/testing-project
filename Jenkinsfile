@@ -24,7 +24,7 @@ pipeline {
         sh '''
           echo "Instalando dependencias"
           npm install -g @angular/cli@18
-          npm ci install
+          npm ci
           node --max_old_space_size=2500
         '''
       }
