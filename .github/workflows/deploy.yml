@@ -21,4 +21,4 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - name: Deploy usinc SCP
-        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/* ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/html
+        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/testing-project/* ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/html
