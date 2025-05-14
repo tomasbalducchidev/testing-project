@@ -22,5 +22,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - name: Copy using SCP
         run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/testing-project/* ${{ secrets.USER }}@${{ secrets.HOST }}:~/temp-deploy-folder
+      - name: Create folder
+        run: mkdir ${{ secrets.USER }}@${{ secrets.HOST }}:~/var/www/html
       - name: Deploy using SCP
         run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/testing-project/* ${{ secrets.USER }}@${{ secrets.HOST }} "sudo mv ~/temp-deploy-folder/* /var/www/html"
