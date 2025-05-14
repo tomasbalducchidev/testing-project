@@ -15,13 +15,19 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      # - name: Run tests
+      #   run: npm run test (aca correrian los tests, pero en este caso no funcionan porque estan con karma y jasmine que necesitan un browser o algo asi. Probar en AngularTesting)
       - run: npm run build
       - name: Get SSH Key and set permissions
+        # SSH_PRIVATE_KEY es una variable que hace referencia a la SSH key (archivo.pem) cuyo contenido COMPLETO pegue cuando cree una secret key en github.
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+      # Copio el contenido del build en una carpeta temporal para luego hacer la copia dentro del server usando sudo sin que se trabe por pedirme credenciales.
+      # USER es ubuntu y HOST es el server de aws, tambien estan en claves secret en github.
       - name: Copy using SCP
         run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/testing-project/browser/* ${{ secrets.USER }}@${{ secrets.HOST }}:~/temp-deploy-folder
+      # Borro los archivos viejos de el despliegue anterior para que la carpeta esté vacia y me deje ponerle nuevos archivos. Muevo los nuevos archivos y cambio permisos para que nginx pueda leerlos, y asi se vea la web en http://ip-publica-de-aws:80
       - name: Deploy using SCP
         run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.HOST }} "
               sudo rm -rf /var/www/html/*
